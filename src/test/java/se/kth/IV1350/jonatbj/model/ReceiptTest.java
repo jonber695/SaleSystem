@@ -106,7 +106,6 @@ public class ReceiptTest {
         Item item = null;
         Receipt instance = new Receipt(localtime);
         instance.addItemToList(item);
-        
     }
     
 }

@@ -36,18 +36,7 @@ public class SaleTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of registerItem method, of class Sale.
-     */
-    @org.junit.jupiter.api.Test
-    public void testRegisterItem() {
-        System.out.println("registerItem");
-        int itemID = 0;
-        ExternalInventorySystem externalInventorySystem = new ExternalInventorySystem();
-        Sale instance = new Sale();
-        instance.registerItem(itemID, externalInventorySystem);
-        
-    }
+    
 
     /**
      * Test of endingSale method, of class Sale.
@@ -72,17 +61,5 @@ public class SaleTest {
         
     }
 
-    /**
-     * Test of getReceipt method, of class Sale.
-     */
-    @org.junit.jupiter.api.Test
-    public void testGetReceipt() {
-        System.out.println("getReceipt");
-        Sale instance = new Sale();
-        Receipt expResult = null;
-        Receipt result = instance.getReceipt();
-        assertEquals(expResult, result);
-        
-    }
     
 }
