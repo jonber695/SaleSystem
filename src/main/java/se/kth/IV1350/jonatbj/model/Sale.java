@@ -41,31 +41,39 @@ public class Sale {
         if(usingThisToAddTheFirstItemInTheList == 0)
         {
             items.add(itemToBeAdded);
+            receipt.addItemToList(itemToBeAdded);
             usingThisToAddTheFirstItemInTheList++;
         }
         else
         {   
             boolean itemAlreadyRegistered = false;
-            for(int i = 0; i< items.size() && itemAlreadyRegistered != true; i++) {
-                itemAlreadyRegistered = itemsEqualToEachOther(items.get(i++), itemToBeAdded);
+            for(int i = 0; i < items.size() && itemAlreadyRegistered == false; i++) {
+                itemAlreadyRegistered = itemsEqualToEachOther(items.get(i), itemToBeAdded);
             }
             if(itemAlreadyRegistered == false)
+            {
                 items.add(itemToBeAdded);
+                receipt.addItemToList(itemToBeAdded);
+            }
             else
             {
                 for (Item item : items) {
                     if(itemsEqualToEachOther(item, itemToBeAdded))
+                    {
                         item.updateQuantity();
+                        receipt.increaseQuantityOfItem(itemToBeAdded);
+                    }
+                        
                 }
+                
             }
         }
         receipt.updatetotalVAT(itemToBeAdded.getVATrate(), itemToBeAdded.getPrice());
         receipt.updateTotalPrice(itemToBeAdded.getPrice());
         System.out.println("Item Discription: " + itemToBeAdded.getItemDiscription() + " and the running total is: " + receipt.getTotalPrice());
-        receipt.addItemToList(itemToBeAdded);
     }
 
-    boolean itemsEqualToEachOther(Item existingItem, Item itemToBeChecked)
+    private boolean itemsEqualToEachOther(Item existingItem, Item itemToBeChecked)
     {
         return (existingItem.getItemID() == itemToBeChecked.getItemID()) ? true : false;
     }
@@ -87,7 +95,7 @@ public class Sale {
      * 
      * @param amountPaid the amount payed by the customer
      */
-    public void paymentProcess(float amountPaid)
+    public void paymentProcess(int amountPaid)
     {
         float change = amountPaid - receipt.getTotalPrice();
         while(change < 0)
@@ -96,11 +104,17 @@ public class Sale {
             amountPaid += scanner.nextFloat();
             change = amountPaid - receipt.getTotalPrice();
         }
+        receipt.setAmountPaid(amountPaid);
         System.out.println("Change = " + change + " kr.");
     }
 
     public Receipt getReceipt()
     {
         return receipt;
+    }
+    
+    public String printReceipt()
+    {
+        return receipt.toString();
     }
 }

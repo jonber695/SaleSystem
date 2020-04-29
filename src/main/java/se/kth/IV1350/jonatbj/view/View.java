@@ -46,8 +46,9 @@ public class View
         contr.endSale();
         contr.updateingSaleLog();
         System.out.println("Enter paid amount:");
-        float amountPaid = scanner.nextInt();
+        int amountPaid = scanner.nextInt();
         contr.payment(amountPaid);
+        contr.showReceipt();
         contr.printReceipt();
     }
 }

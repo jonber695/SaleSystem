@@ -76,7 +76,7 @@ public class Controller {
      * 
      * @param amountPaid The amount of money that the customer paid with
      */
-    public void payment(float amountPaid)
+    public void payment(int amountPaid)
     {
         sale.paymentProcess(amountPaid);
     }
@@ -113,5 +113,10 @@ public class Controller {
     public void printReceipt()
     {
         printer.printsReceipt(sale);
+    }
+    
+    public void showReceipt()
+    {
+        System.out.println(sale.printReceipt());
     }
 }
