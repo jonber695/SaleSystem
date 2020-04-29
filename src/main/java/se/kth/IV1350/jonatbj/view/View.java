@@ -31,11 +31,24 @@ public class View
      */
     public void userInterface()
     {
-        int itemID;
+        int itemID = 0;
         contr.startSale();
         System.out.println("Sale started");
         System.out.println("Enter itemID for scanning:");
-        itemID = scanner.nextInt();
+        boolean loopToCheckThatItemIdIsANumber = true;
+        do
+        {
+            try
+            {
+                itemID = scanner.nextInt();
+                loopToCheckThatItemIdIsANumber = false;
+            }
+            catch (Exception e)
+            {
+                System.out.println("You did not enter a number, please try again");
+            }
+        }while(loopToCheckThatItemIdIsANumber);
+        
         while(itemID != 0)
         {
             contr.scanItems(itemID);

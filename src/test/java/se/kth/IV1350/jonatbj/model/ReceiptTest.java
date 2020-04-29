@@ -8,42 +8,36 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.*;
 
-/**
- *
- * @author jonat
- */
+
 public class ReceiptTest {
 
     private LocalDateTime localtime;
 
-    @BeforeAll
-    public static void setUpClass() {
-        
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-        localtime = LocalDateTime.now();
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
     /**
-     * Test of updateTotalPrice method, of class Receipt.
+     * Test of updateTotalPrice method, of class Receipt. With zero, so it should be
+     * the same after as before
      */
     @org.junit.jupiter.api.Test
     public void testUpdateTotalPrice() {
         System.out.println("updateTotalPrice");
         float itemPrice = 0.0F;
         Receipt instance = new Receipt(localtime);
+        float totalPriceBefore = instance.getTotalPrice();
         instance.updateTotalPrice(itemPrice);
-        
+        assertTrue(totalPriceBefore == instance.getTotalPrice(), "it works");
+    }
+    
+    /**
+     * Test of updateTotalPrice method, when everything works like as it should
+     */
+    @Test
+    public void testUpdatePriceWhenItShouldWorkFine()
+    {
+        float itemPrice = 10.3F;
+        Receipt instance = new Receipt(localtime);
+        float priceToCheckAgainst = 10.3F;
+        instance.updateTotalPrice(itemPrice);
+        assertTrue(instance.getTotalPrice() == priceToCheckAgainst, "works fine");
     }
 
     /**
@@ -56,56 +50,14 @@ public class ReceiptTest {
         float price = 0.0F;
         Receipt instance = new Receipt(localtime);
         instance.updatetotalVAT(itemVAT, price);
-        
+        assertTrue(instance.getTotalVAT() == 0.0F, "works fine");
     }
 
-    /**
-     * Test of getTotalPrice method, of class Receipt.
-     */
-    @org.junit.jupiter.api.Test
-    public void testGetTotalPrice() {
-        System.out.println("getTotalPrice");
-        Receipt instance = new Receipt(localtime);
-        float expResult = 0.0F;
-        float result = instance.getTotalPrice();
-        assertEquals(expResult, result, 0.0);
-        
-    }
 
-    /**
-     * Test of setAmountPaid method, of class Receipt.
-     */
-    @org.junit.jupiter.api.Test
-    public void testSetAmountPaid() {
-        System.out.println("setAmountPaid");
-        int _amountPaid = 0;
-        Receipt instance = new Receipt(localtime);
-        instance.setAmountPaid(_amountPaid);
-        
-    }
 
-    /**
-     * Test of getTotalVAT method, of class Receipt.
-     */
-    @org.junit.jupiter.api.Test
-    public void testGetTotalVAT() {
-        System.out.println("getTotalVAT");
-        Receipt instance = new Receipt(localtime);
-        float expResult = 0.0F;
-        float result = instance.getTotalVAT();
-        assertEquals(expResult, result, 0.0);
-        
-    }
 
-    /**
-     * Test of addItemToList method, of class Receipt.
-     */
-    @org.junit.jupiter.api.Test
-    public void testAddItemToList() {
-        System.out.println("addItemToList");
-        Item item = null;
-        Receipt instance = new Receipt(localtime);
-        instance.addItemToList(item);
-    }
+
+
+    
     
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package se.kth.IV1350.jonatbj.model;
 
 import java.time.*;
@@ -20,6 +15,7 @@ class Receipt {
     private int amountPaid;
     LocalDateTime timeAndDayOfSale;
     List<Item> items;
+    float change;
 
     /**
      * creates an instance of a receipt
@@ -91,9 +87,27 @@ class Receipt {
         items.add(item);
     }
     
+    /**
+     * sends which items quantity needs to be increased by one
+     * @param item this is the items whos quantity need to be increased
+     */
     public void increaseQuantityOfItem(Item item)
     {
         item.updateQuantity();
+    }
+    
+    /**
+     * Sets the change
+     * @param amountPaid the amount paid by the customer
+     */
+    public void setChange(int amountPaid)
+    {
+        change = amountPaid - totalPrice;
+    }
+    
+    public float getChange()
+    {
+        return change;
     }
     
     private String printItems()
@@ -106,10 +120,14 @@ class Receipt {
         return itemToReturn;
     }
     
+    /**
+     * This is the toString method that overwrites the default tostring
+     * @return the string that I want to be printed in the output
+     */
     public String toString()
     {
         return "Store name: " + storeName + "\n" + "Store address: " + storeAddress + "\n" + 
                 "Items: " + printItems() + "Total price: " + totalPrice + "\n" + "Total VAT: " + totalVAT
-                + "\n" + "Amount paid: " + amountPaid + "kr \n" + "Change: " + (amountPaid-totalPrice);
+                + "\n" + "Amount paid: " + amountPaid + "kr \n" + "Change: " + change;
     }
 }

@@ -38,6 +38,8 @@ public class Sale {
     public void registerItem(int itemID, ExternalInventorySystem externalInventorySystem)
     {
         Item itemToBeAdded = externalInventorySystem.getItem(itemID);
+        if(itemToBeAdded == null)
+            return;
         if(usingThisToAddTheFirstItemInTheList == 0)
         {
             items.add(itemToBeAdded);
@@ -116,5 +118,10 @@ public class Sale {
     public String printReceipt()
     {
         return receipt.toString();
+    }
+    
+    public List<Item> getItems()
+    {
+        return items;
     }
 }
