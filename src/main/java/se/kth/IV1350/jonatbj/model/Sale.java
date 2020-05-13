@@ -52,7 +52,6 @@ public class Sale {
         catch(ItemNotInInventoryException e)
         {
             System.out.println("For user: " + e.getMessage());
-            System.out.println("For developer: " + e);
             return;
         }
         if(usingThisToAddTheFirstItemInTheList == 0)
