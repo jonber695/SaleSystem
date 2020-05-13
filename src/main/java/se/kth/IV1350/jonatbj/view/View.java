@@ -60,7 +60,10 @@ public class View
         contr.updateingSaleLog();
         System.out.println("Enter paid amount:");
         int amountPaid = scanner.nextInt();
-        contr.payment(amountPaid);
+        while(contr.payment(amountPaid) == false)
+        {
+            amountPaid += scanner.nextInt();
+        }
         contr.showReceipt();
         contr.printReceipt();
     }

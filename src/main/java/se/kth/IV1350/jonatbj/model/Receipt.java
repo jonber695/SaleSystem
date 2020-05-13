@@ -126,7 +126,7 @@ class Receipt {
      */
     public String toString()
     {
-        return "Store name: " + storeName + "\n" + "Store address: " + storeAddress + "\n" + 
+        return "Receipt: \n" + "Store name: " + storeName + "\n" + "Store address: " + storeAddress + "\n" + 
                 "Items: " + printItems() + "Total price: " + totalPrice + "\n" + "Total VAT: " + totalVAT
                 + "\n" + "Amount paid: " + amountPaid + "kr \n" + "Change: " + change;
     }

@@ -6,6 +6,7 @@
 package se.kth.IV1350.jonatbj.controller;
 
 import se.kth.IV1350.jonatbj.model.*;
+import se.kth.IV1350.jonatbj.exception.InventoryNotRespondingException;
 import se.kth.IV1350.jonatbj.integration.*;
 
 /**
@@ -52,7 +53,16 @@ public class Controller {
      */
     public void scanItems(int itemID)
     {
-        sale.registerItem(itemID, externalInventorySystem);
+        try
+        {
+            sale.registerItem(itemID, externalInventorySystem);
+        }
+        catch(InventoryNotRespondingException e)
+        {
+            System.out.println("For user: " + e.getMessage());
+            System.out.println("For developer: " + e);
+        }
+        
     }
 
     /**
@@ -75,10 +85,11 @@ public class Controller {
      * preformes the payment sequence
      * 
      * @param amountPaid The amount of money that the customer paid with
+     * @return returns either true or false depending on whether or not the amount paid is enough
      */
-    public void payment(int amountPaid)
+    public boolean payment(int amountPaid)
     {
-        sale.paymentProcess(amountPaid);
+        return sale.paymentProcess(amountPaid);
     }
 
     /**
