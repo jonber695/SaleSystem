@@ -40,7 +40,7 @@ public class SaleTest {
     }
     
     /**
-     * Test of getitem method, When there is a invalid item ID sent to it
+     * Test of getItem method, When there is a invalid item ID sent to it
      */
     @Test
     public void testGetItemWithInvalidItemID()
