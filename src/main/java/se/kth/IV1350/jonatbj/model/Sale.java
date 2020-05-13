@@ -51,7 +51,7 @@ public class Sale {
         }
         catch(ItemNotInInventoryException e)
         {
-            System.out.println("For user: " + e.getMessage());
+            System.out.println(e.getMessage());
             return;
         }
         if(usingThisToAddTheFirstItemInTheList == 0)
@@ -61,7 +61,7 @@ public class Sale {
             usingThisToAddTheFirstItemInTheList++;
         }
         else
-        {   
+        {
             boolean itemAlreadyRegistered = false;
             for(int i = 0; i < items.size() && itemAlreadyRegistered == false; i++) {
                 itemAlreadyRegistered = itemsEqualToEachOther(items.get(i), itemToBeAdded);

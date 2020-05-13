@@ -58,10 +58,6 @@ public class SaleTest {
         }
     }
     
-    
-
-
-
     /**
      * Test of paymentProcess method, of class Sale.
      */
