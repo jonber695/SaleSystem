@@ -68,6 +68,9 @@ public class View
             {
                 amountPaid += scanner.nextInt();
             }
+            contr.increaseAmountInRegister(amountPaid);
+            contr.updateAccountingSystem();
+            contr.updateInventorySystem();
             contr.showReceipt();
             contr.printReceipt();
             loopingToTestObserverPattern++;
