@@ -23,6 +23,7 @@ public class View
     public View(Controller _contr)
     {
         contr = _contr;
+        contr.addObserver(new TotalRevenueView());
     }
 
     /**
@@ -31,40 +32,47 @@ public class View
      */
     public void userInterface()
     {
-        int itemID = 0;
-        contr.startSale();
-        System.out.println("Sale started");
-        System.out.println("Enter itemID for scanning:");
-        boolean loopToCheckThatItemIdIsANumber = true;
-        do
+        int loopingToTestObserverPattern = 0;
+        while(loopingToTestObserverPattern < 2)
         {
-            try
+            int itemID = 0;
+            contr.startSale();
+            System.out.println("Sale started");
+            System.out.println("Enter itemID for scanning:");
+            boolean loopToCheckThatItemIdIsANumber = true;
+            do
             {
+                try
+                {
+                    itemID = scanner.nextInt();
+                    loopToCheckThatItemIdIsANumber = false;
+                }
+                catch (Exception e)
+                {
+                    System.out.println("You did not enter a number, please try again");
+                }
+            }while(loopToCheckThatItemIdIsANumber);
+            
+            while(itemID != 0)
+            {
+                contr.scanItems(itemID);
+                System.out.println("Enter next itemID:");
+                System.out.println("If there are no more items enter zero");
                 itemID = scanner.nextInt();
-                loopToCheckThatItemIdIsANumber = false;
             }
-            catch (Exception e)
+            contr.endSale();
+            contr.updateingSaleLog();
+            System.out.println("Enter paid amount:");
+            int amountPaid = scanner.nextInt();
+            while(contr.payment(amountPaid) == false)
             {
-                System.out.println("You did not enter a number, please try again");
+                amountPaid += scanner.nextInt();
             }
-        }while(loopToCheckThatItemIdIsANumber);
+            contr.showReceipt();
+            contr.printReceipt();
+            loopingToTestObserverPattern++;
+            System.out.println("-------- end of sale -------");
+        }
         
-        while(itemID != 0)
-        {
-            contr.scanItems(itemID);
-            System.out.println("Enter next itemID:");
-            System.out.println("If there are no more items enter zero");
-            itemID = scanner.nextInt();
-        }
-        contr.endSale();
-        contr.updateingSaleLog();
-        System.out.println("Enter paid amount:");
-        int amountPaid = scanner.nextInt();
-        while(contr.payment(amountPaid) == false)
-        {
-            amountPaid += scanner.nextInt();
-        }
-        contr.showReceipt();
-        contr.printReceipt();
     }
 }

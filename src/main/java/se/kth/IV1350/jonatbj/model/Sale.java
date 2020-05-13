@@ -18,6 +18,7 @@ public class Sale {
     LocalDateTime saleTime;
     List<Item> items;
     private int usingThisToAddTheFirstItemInTheList = 0;
+    private List<RevenueObserver> revenueObservers;
 
     /**
      * Creates one new instance for every new customer
@@ -27,6 +28,7 @@ public class Sale {
         saleTime = LocalDateTime.now();
         receipt = new Receipt(saleTime);
         items = new ArrayList<>();
+        revenueObservers = new ArrayList<>();
     }
 
     /**
@@ -116,14 +118,26 @@ public class Sale {
         float change = amountPaid - receipt.getTotalPrice();
         if(change < 0)
         {
-            System.out.println("Not enough paid, there is still " + Math.abs(amountPaid-receipt.getTotalPrice()) + " kr left to pay, enter again:");
+            System.out.println("Not enough paid, there is still " + Math.abs(amountPaid - receipt.getTotalPrice()) + " kr left to pay, enter again:");
             return false;
         }
         receipt.setAmountPaid(amountPaid);
         receipt.setChange(amountPaid);
+        notifyObservers();
         return true;
     }
 
+    private void notifyObservers()
+    {
+        for (RevenueObserver reObs : revenueObservers) {
+            reObs.paymentUpdate(this);
+        }
+    }
+
+    public void addObserver(RevenueObserver reObs)
+    {
+        revenueObservers.add(reObs);
+    }
 
     public Receipt getReceipt()
     {
@@ -142,5 +156,10 @@ public class Sale {
     public List<Item> getItems()
     {
         return items;
+    }
+
+    public int getReceiptTotalAmountPaid()
+    {
+        return receipt.getAmountPaid();
     }
 }

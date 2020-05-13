@@ -72,6 +72,11 @@ class Receipt {
         amountPaid = _amountPaid;
     }
 
+    public int getAmountPaid()
+    {
+        return amountPaid;
+    }
+
     public float getTotalVAT()
     {
         return totalVAT;

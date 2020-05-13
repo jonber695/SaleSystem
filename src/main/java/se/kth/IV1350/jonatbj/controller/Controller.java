@@ -6,6 +6,10 @@
 package se.kth.IV1350.jonatbj.controller;
 
 import se.kth.IV1350.jonatbj.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import se.kth.IV1350.jonatbj.exception.InventoryNotRespondingException;
 import se.kth.IV1350.jonatbj.integration.*;
 
@@ -19,6 +23,7 @@ public class Controller {
     private Sale sale;
     private Printer printer;
     private SaleLog saleLog;
+    private List<RevenueObserver> revenueObservers;
 
     /**
      * creates an instance of controller that is used in the program,
@@ -36,6 +41,12 @@ public class Controller {
         register = _register;
         saleLog = new SaleLog();
         printer = _Printer;
+        revenueObservers = new ArrayList<>();
+    }
+
+    public void addObserver(RevenueObserver reObs)
+    {
+        revenueObservers.add(reObs);
     }
 
     /**
@@ -44,6 +55,7 @@ public class Controller {
     public void startSale()
     {
         sale = new Sale();
+        sale.addObserver(revenueObservers.get(0));
     }
 
     /**
