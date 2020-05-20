@@ -79,33 +79,14 @@ public class Controller {
      */
     public boolean payment(int amountPaid)
     {
-        return sale.paymentProcess(amountPaid);
-    }
-
-    /**
-     * increases the amount of money in the register with the amount paid
-     * 
-     * @param amountPaid the amount of money the customer paid
-     */
-    public void increaseAmountInRegister(float amountPaid)
-    {
-        register.increaseAmountInRegister(amountPaid);
-    }
-
-    /**
-     * updates the external accounting system
-     */
-    public void updateAccountingSystem()
-    {
-        externalAccountingSystem.updateAccountingSystem(sale);
-    }
-
-    /**
-     * updates the external inventory system
-     */
-    public void updateInventorySystem()
-    {
-        externalInventorySystem.updateInventorySystem(sale);
+        boolean enoughAmountPaid = sale.paymentProcess(amountPaid);
+        if(enoughAmountPaid == true)
+        {
+            register.increaseAmountInRegister(amountPaid);
+            externalInventorySystem.updateInventorySystem(sale);
+            externalInventorySystem.updateInventorySystem(sale);
+        }
+        return enoughAmountPaid;
     }
     
     /**
