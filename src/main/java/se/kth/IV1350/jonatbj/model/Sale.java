@@ -17,7 +17,6 @@ public class Sale {
     LocalDateTime saleTime;
     List<Item> items;
     private int usingThisToAddTheFirstItemInTheList = 0;
-    Scanner scanner = new Scanner(System.in);
 
     /**
      * Creates one new instance for every new customer
@@ -96,18 +95,18 @@ public class Sale {
      * This is the payment process
      * 
      * @param amountPaid the amount payed by the customer
+     * @return returns either true or false depending on whether the amount paid is enough or not
      */
-    public void paymentProcess(int amountPaid)
+    public boolean paymentProcess(int amountPaid)
     {
         float change = amountPaid - receipt.getTotalPrice();
-        while(change < 0)
+        if(change < 0)
         {
             System.out.println("Not enough paid, there is still " + Math.abs(amountPaid-receipt.getTotalPrice()) + " kr left to pay, enter again:");
-            amountPaid += scanner.nextFloat();
-            change = amountPaid - receipt.getTotalPrice();
+            return false;
         }
         receipt.setAmountPaid(amountPaid);
-        System.out.println("Change = " + change + " kr.");
+        return true;
     }
 
     public Receipt getReceipt()

@@ -75,10 +75,11 @@ public class Controller {
      * preformes the payment sequence
      * 
      * @param amountPaid The amount of money that the customer paid with
+     * @return returns either true or false depending on whether the amount paid is enough
      */
-    public void payment(int amountPaid)
+    public boolean payment(int amountPaid)
     {
-        sale.paymentProcess(amountPaid);
+        return sale.paymentProcess(amountPaid);
     }
 
     /**
