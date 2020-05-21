@@ -84,7 +84,7 @@ public class Controller {
         {
             register.increaseAmountInRegister(amountPaid);
             externalInventorySystem.updateInventorySystem(sale);
-            externalInventorySystem.updateInventorySystem(sale);
+            externalAccountingSystem.updateAccountingSystem(sale);
         }
         return enoughAmountPaid;
     }

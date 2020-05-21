@@ -6,8 +6,10 @@
 package se.kth.IV1350.jonatbj.model;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import se.kth.IV1350.jonatbj.integration.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import se.kth.IV1350.jonatbj.integration.ExternalInventorySystem;
 
 /**
  * Represents one sale from one customer
@@ -41,9 +43,7 @@ public class Sale {
             return;
         if(usingThisToAddTheFirstItemInTheList == 0)
         {
-            items.add(itemToBeAdded);
-            receipt.addItemToList(itemToBeAdded);
-            usingThisToAddTheFirstItemInTheList++;
+            addingItemToList(itemToBeAdded);
         }
         else
         {   
@@ -53,20 +53,11 @@ public class Sale {
             }
             if(itemAlreadyRegistered == false)
             {
-                items.add(itemToBeAdded);
-                receipt.addItemToList(itemToBeAdded);
+                addingItemToList(itemToBeAdded);
             }
             else
             {
-                for (Item item : items) {
-                    if(itemsEqualToEachOther(item, itemToBeAdded))
-                    {
-                        item.updateQuantity();
-                        receipt.increaseQuantityOfItem(itemToBeAdded);
-                    }
-                        
-                }
-                
+               increaseQuantityOfItem(itemToBeAdded);   
             }
         }
         receipt.updatetotalVAT(itemToBeAdded.getVATrate(), itemToBeAdded.getPrice());
@@ -77,6 +68,25 @@ public class Sale {
     private boolean itemsEqualToEachOther(Item existingItem, Item itemToBeChecked)
     {
         return (existingItem.getItemID() == itemToBeChecked.getItemID()) ? true : false;
+    }
+
+    private void addingItemToList(Item itemToBeAdded)
+    {
+        items.add(itemToBeAdded);
+        receipt.addItemToList(itemToBeAdded);
+        if(usingThisToAddTheFirstItemInTheList == 0)
+            usingThisToAddTheFirstItemInTheList++;
+    }
+
+    private void increaseQuantityOfItem(Item itemToBeAdded)
+    {
+        for (Item item : items) {
+            if(itemsEqualToEachOther(item, itemToBeAdded))
+            {
+                item.updateQuantity();
+                receipt.increaseQuantityOfItem(itemToBeAdded);
+            }                        
+        }
     }
 
     /**
