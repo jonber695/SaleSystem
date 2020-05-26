@@ -116,6 +116,7 @@ public class Sale {
             return false;
         }
         receipt.setAmountPaid(amountPaid);
+        receipt.setChange();
         return true;
     }
 
