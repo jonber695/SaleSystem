@@ -17,7 +17,7 @@ public class SaleTest {
     LocalDateTime localTime = LocalDateTime.now();
     
     /**
-     * Test of the registerItem method, of class Sale, with a "null string"
+     * Test of the registerItem method, of class Sale, with the wrong identifier
      */
     @Test
     public void testRegisterItemWithANullItemID()
@@ -57,17 +57,45 @@ public class SaleTest {
 
 
     /**
-     * Test of paymentProcess method, of class Sale.
+     * Test of paymentProcess method, without enough money being paid.
      */
-    @org.junit.jupiter.api.Test
-    public void testPaymentProcess() {
+    @Test
+    public void testOfPaymentProcessWhenThereIsNotEnougMoneyPaid() {
         System.out.println("paymentProcess");
         int amountPaid = 0;
         Sale instance = new Sale();
-        instance.paymentProcess(amountPaid);
-        float change = amountPaid - instance.receipt.getTotalPrice();
-        assertTrue(instance.receipt.getChange() == change, "works");
+        ExternalInventorySystem externalInventorySystem = new ExternalInventorySystem();
+        instance.registerItem(2, externalInventorySystem);
+        boolean testingToSeeIfThisVariableWillBeFalse = instance.paymentProcess(amountPaid);
+        assertFalse(testingToSeeIfThisVariableWillBeFalse == true, "works");
     }
 
-    
+    /**
+     * Test of paymentProcess method, with enough money being paid (optimal scenario)
+     */
+    @Test
+    public void testOfPaymentProcessWhenThereIsEnoughMoneyPaid()
+    {
+        int amountPaid = 23;
+        Sale instance = new Sale();
+        ExternalInventorySystem externalInventorySystem = new ExternalInventorySystem();
+        instance.registerItem(2, externalInventorySystem);
+        boolean testingToSeeIfThisVariableWillBeTrue = instance.paymentProcess(amountPaid);
+        assertTrue(testingToSeeIfThisVariableWillBeTrue == true, "It works");
+    }
+
+    /**
+     * Testing paymentProcess method to see if change is correct
+     */
+    @Test
+    public void testOfPaymentProcessToSeeIfChangeIsCorrect()
+    {
+        int amountPaid = 23;
+        float change = 0.5f;
+        Sale instance = new Sale();
+        ExternalInventorySystem externalInventorySystem = new ExternalInventorySystem();
+        instance.registerItem(2, externalInventorySystem);
+        instance.paymentProcess(amountPaid);
+        assertTrue(instance.receipt.getChange() == change, "It works");
+    }
 }
