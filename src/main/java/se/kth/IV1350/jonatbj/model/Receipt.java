@@ -15,7 +15,7 @@ class Receipt {
     private int amountPaid;
     LocalDateTime timeAndDayOfSale;
     List<Item> items;
-    float change;
+    private float change;
 
     /**
      * creates an instance of a receipt
@@ -100,7 +100,7 @@ class Receipt {
      * Sets the change
      * @param amountPaid the amount paid by the customer
      */
-    public void setChange(int amountPaid)
+    public void setChange()
     {
         change = amountPaid - totalPrice;
     }
