@@ -36,11 +36,11 @@ public class Sale {
      * @param itemID This is the ID of an item, used to fetch the information from the external system
      * @param externalInventorySystem Uses the ID to fetch information from its inventory system
      */
-    public void registerItem(int itemID, ExternalInventorySystem externalInventorySystem)
+    public ItemDTO registerItem(int itemID, ExternalInventorySystem externalInventorySystem)
     {
         Item itemToBeAdded = externalInventorySystem.getItem(itemID);
         if(itemToBeAdded == null)
-            return;
+            return null;
         if(usingThisToAddTheFirstItemInTheList == 0)
         {
             addingItemToList(itemToBeAdded);
@@ -62,7 +62,7 @@ public class Sale {
         }
         receipt.updatetotalVAT(itemToBeAdded.getVATrate(), itemToBeAdded.getPrice());
         receipt.updateTotalPrice(itemToBeAdded.getPrice());
-        System.out.println("Item Discription: " + itemToBeAdded.getItemDiscription() + " and the running total is: " + receipt.getTotalPrice());
+        return new ItemDTO(itemToBeAdded);
     }
 
     private boolean itemsEqualToEachOther(Item existingItem, Item itemToBeChecked)
@@ -92,13 +92,9 @@ public class Sale {
     /**
      * Ends the current sale and prints the total price and all of the items that are bought
      */
-    public void endingSale()
+    public SaleDTO endingSale()
     {
-        System.out.println("Sale closed");
-        for (Item item : items) {
-            System.out.println(item);
-        }
-        System.out.println("Total price = " + receipt.getTotalPrice() + " kr.");
+        return new SaleDTO(receipt, items);
     }
 
     /**
@@ -112,7 +108,6 @@ public class Sale {
         float change = amountPaid - receipt.getTotalPrice();
         if(change < 0)
         {
-            System.out.println("Not enough paid, there is still " + Math.abs(amountPaid-receipt.getTotalPrice()) + " kr left to pay, enter again:");
             return false;
         }
         receipt.setAmountPaid(amountPaid);

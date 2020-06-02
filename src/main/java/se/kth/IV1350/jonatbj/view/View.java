@@ -6,6 +6,9 @@
 package se.kth.IV1350.jonatbj.view;
 
 import se.kth.IV1350.jonatbj.controller.Controller;
+import se.kth.IV1350.jonatbj.model.ItemDTO;
+import se.kth.IV1350.jonatbj.model.SaleDTO;
+
 import java.util.*;
 
 /**
@@ -48,22 +51,31 @@ public class View
                 System.out.println("You did not enter a number, please try again");
             }
         }while(loopToCheckThatItemIdIsANumber);
-        
+        float totalPrice = 0;
         while(itemID != 0)
         {
-            contr.scanItems(itemID);
+            ItemDTO item = contr.scanItems(itemID);
+            totalPrice += item.getPrice();
+            System.out.println("Item disctiption: " + item.toString() + "\n" + "And the running total is: " + totalPrice);
             System.out.println("Enter next itemID:");
-            System.out.println("If there are no more items enter zero");
+            System.out.println("If there are no more items enter the number zero");
             itemID = scanner.nextInt();
         }
-        contr.endSale();
+        System.out.println("Sale ended");
+        SaleDTO sale = contr.endSale();
+        System.out.println("Total price: " + sale.getTotalPrice());
         contr.updateingSaleLog();
         System.out.println("Enter paid amount:");
         int amountPaid = scanner.nextInt();
-        contr.payment(amountPaid);
         while(contr.payment(amountPaid) == false)
+        {
+            System.out.println("Not enough paid, there is still " + Math.abs(amountPaid-sale.getTotalPrice()) + " kr left to pay, enter again:");
             amountPaid += scanner.nextInt();
-        contr.showReceipt();
+        }
+            
         contr.printReceipt();
+        System.out.println("--------Start of receipt-------");
+        System.out.println(sale.getReceipt());
+        System.out.println("--------End of receipt----------");
     }
 }

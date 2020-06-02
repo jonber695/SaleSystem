@@ -50,17 +50,17 @@ public class Controller {
      * 
      * @param itemID used to identify which item is suppose to be added
      */
-    public void scanItems(int itemID)
+    public ItemDTO scanItems(int itemID)
     {
-        sale.registerItem(itemID, externalInventorySystem);
+        return sale.registerItem(itemID, externalInventorySystem);
     }
 
     /**
      * Ends sale by calling the endingSale method in sale
      */
-    public void endSale()
+    public SaleDTO endSale()
     {
-        sale.endingSale();
+        return sale.endingSale();
     }
 
     /**
@@ -79,14 +79,14 @@ public class Controller {
      */
     public boolean payment(int amountPaid)
     {
-        boolean enoughAmountPaid = sale.paymentProcess(amountPaid);
-        if(enoughAmountPaid == true)
+        boolean isEnoughAmountPaid = sale.paymentProcess(amountPaid);
+        if(isEnoughAmountPaid == true)
         {
             register.increaseAmountInRegister(amountPaid);
             externalInventorySystem.updateInventorySystem(sale);
             externalAccountingSystem.updateAccountingSystem(sale);
         }
-        return enoughAmountPaid;
+        return isEnoughAmountPaid;
     }
     
     /**
@@ -95,10 +95,5 @@ public class Controller {
     public void printReceipt()
     {
         printer.printsReceipt(sale);
-    }
-    
-    public void showReceipt()
-    {
-        System.out.println(sale.printReceipt());
     }
 }
