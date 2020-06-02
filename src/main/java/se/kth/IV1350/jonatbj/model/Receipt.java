@@ -119,6 +119,16 @@ class Receipt {
         }
         return itemToReturn;
     }
+
+    private String dateTime()
+    {
+        String timeAsString = timeAndDayOfSale.toString();
+        char[] timeAsCharArray = timeAsString.toCharArray();
+        String firstPartOfString = new String(timeAsCharArray, 0, 10);
+        String secondPartOfString = new String(timeAsCharArray, 11, 8);
+        String stringToReturn = "Date: " + firstPartOfString + ", Time: " + secondPartOfString;
+        return stringToReturn;
+    }
     
     /**
      * This is the toString method that overwrites the default tostring
@@ -126,8 +136,8 @@ class Receipt {
      */
     public String toString()
     {
-        return "Store name: " + storeName + "\n" + "Store address: " + storeAddress + "\n" + 
-                "Items: " + printItems() + "Total price: " + totalPrice + "\n" + "Total VAT: " + totalVAT
+        return "Store name: " + storeName + "\n" + "Store address: " + storeAddress + "\n"  + dateTime() +
+                "\n" + "Items: " + printItems() + "Total price: " + totalPrice + "\n" + "Total VAT: " + totalVAT
                 + "\n" + "Amount paid: " + amountPaid + "kr \n" + "Change: " + change;
     }
 }
