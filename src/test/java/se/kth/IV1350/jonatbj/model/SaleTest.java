@@ -23,7 +23,7 @@ public class SaleTest {
      * Test of the registerItem method, of class Sale, with the hardcoded number that makes the method
      * throw Inventory not responding exception
      */
-    @Test
+   @Test
    public void testRegisterItemWhenInventoryIsNotResponding()
     {
         Sale instance = new Sale();
@@ -36,6 +36,10 @@ public class SaleTest {
         catch(InventoryNotRespondingException e)
         {
             assertTrue(e.getMessage() == "Inventory system is not responding", "it's working");
+        }
+        catch(ItemNotInInventoryException e)
+        {
+            fail("Wrong exception");
         }
     }
     
