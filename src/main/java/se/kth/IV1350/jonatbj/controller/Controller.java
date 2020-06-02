@@ -11,10 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.IV1350.jonatbj.exception.InventoryNotRespondingException;
+import se.kth.IV1350.jonatbj.exception.ItemNotInInventoryException;
 import se.kth.IV1350.jonatbj.integration.*;
 
 /**
- * Controls the program and forwards the method calls from View to the right method in the model layer
+ * Controls the program and forwards the method calls from View to the right
+ * method in the model layer
  */
 public class Controller {
     private ExternalAccountingSystem externalAccountingSystem;
@@ -26,16 +28,20 @@ public class Controller {
     private List<RevenueObserver> revenueObservers;
 
     /**
-     * creates an instance of controller that is used in the program,
-     * to dicates where the method calls from view goes
+     * creates an instance of controller that is used in the program, to dicates
+     * where the method calls from view goes
      * 
-     * @param _AccountingSystem This is the external accounting system that is used for the accounting
-     * @param _InventorySystem External inventory system used for finding the items and updating
-     * @param _register the register that stores the total amount of money in the register
-     * @param _Printer only used to print the receipt at the end of the program
+     * @param _AccountingSystem This is the external accounting system that is used
+     *                          for the accounting
+     * @param _InventorySystem  External inventory system used for finding the items
+     *                          and updating
+     * @param _register         the register that stores the total amount of money
+     *                          in the register
+     * @param _Printer          only used to print the receipt at the end of the
+     *                          program
      */
-    public Controller(ExternalAccountingSystem _AccountingSystem, ExternalInventorySystem _InventorySystem, Register _register, Printer _Printer)
-    {
+    public Controller(ExternalAccountingSystem _AccountingSystem, ExternalInventorySystem _InventorySystem,
+            Register _register, Printer _Printer) {
         externalAccountingSystem = _AccountingSystem;
         externalInventorySystem = _InventorySystem;
         register = _register;
@@ -44,16 +50,14 @@ public class Controller {
         revenueObservers = new ArrayList<>();
     }
 
-    public void addObserver(RevenueObserver reObs)
-    {
+    public void addObserver(RevenueObserver reObs) {
         revenueObservers.add(reObs);
     }
 
     /**
      * Starts the sale by creating a sale object
      */
-    public void startSale()
-    {
+    public void startSale() {
         sale = new Sale();
         sale.addObserver(revenueObservers.get(0));
     }
@@ -62,27 +66,20 @@ public class Controller {
      * Scans one item by calling the method registerItem in sale
      * 
      * @param itemID used to identify which item is suppose to be added
+     * @throws ItemNotInInventoryException
+     * @throws InventoryNotRespondingException
      */
-    public void scanItems(int itemID)
+    public ItemDTO scanItems(int itemID) throws ItemNotInInventoryException, InventoryNotRespondingException
     {
-        try
-        {
-            sale.registerItem(itemID, externalInventorySystem);
-        }
-        catch(InventoryNotRespondingException e)
-        {
-            System.out.println("For user: " + e.getMessage());
-            System.out.println("For developer: " + e);
-        }
-        
+        return sale.registerItem(itemID, externalInventorySystem);
     }
 
     /**
      * Ends sale by calling the endingSale method in sale
      */
-    public void endSale()
+    public SaleDTO endSale()
     {
-        sale.endingSale();
+        return sale.endingSale();
     }
 
     /**
@@ -136,10 +133,5 @@ public class Controller {
     public void printReceipt()
     {
         printer.printsReceipt(sale);
-    }
-    
-    public void showReceipt()
-    {
-        System.out.println(sale.printReceipt());
     }
 }

@@ -40,25 +40,16 @@ public class Sale {
      *                                inventory system
      * @throws InvetoryNotRespondingException Throws an exception when the inventory is not reachable
      */
-    public void registerItem(int itemID, ExternalInventorySystem externalInventorySystem) throws InventoryNotRespondingException
+    public ItemDTO registerItem(int itemID, ExternalInventorySystem externalInventorySystem) throws InventoryNotRespondingException, ItemNotInInventoryException
     {
         if(itemID == 4)
             throw new InventoryNotRespondingException("Inventory system is not responding");
         Item itemToBeAdded = null; 
-        try
-        {
-            itemToBeAdded = externalInventorySystem.getItem(itemID);
-        }
-        catch(ItemNotInInventoryException e)
-        {
-            System.out.println(e.getMessage());
-            return;
-        }
+        itemToBeAdded = externalInventorySystem.getItem(itemID);
+        
         if(usingThisToAddTheFirstItemInTheList == 0)
         {
-            items.add(itemToBeAdded);
-            receipt.addItemToList(itemToBeAdded);
-            usingThisToAddTheFirstItemInTheList++;
+            addingItemToList(itemToBeAdded);
         }
         else
         {
@@ -68,25 +59,16 @@ public class Sale {
             }
             if(itemAlreadyRegistered == false)
             {
-                items.add(itemToBeAdded);
-                receipt.addItemToList(itemToBeAdded);
+                addingItemToList(itemToBeAdded);
             }
             else
             {
-                for (Item item : items) {
-                    if(itemsEqualToEachOther(item, itemToBeAdded))
-                    {
-                        item.updateQuantity();
-                        receipt.increaseQuantityOfItem(itemToBeAdded);
-                    }
-                        
-                }
-                
+                increaseQuantityOfItem(itemToBeAdded);
             }
         }
         receipt.updatetotalVAT(itemToBeAdded.getVATrate(), itemToBeAdded.getPrice());
         receipt.updateTotalPrice(itemToBeAdded.getPrice());
-        System.out.println("Item Discription: " + itemToBeAdded.getItemDiscription() + " and the running total is: " + receipt.getTotalPrice());
+        return new ItemDTO(itemToBeAdded);
     }
 
     private boolean itemsEqualToEachOther(Item existingItem, Item itemToBeChecked)
@@ -94,16 +76,31 @@ public class Sale {
         return (existingItem.getItemID() == itemToBeChecked.getItemID()) ? true : false;
     }
 
+    private void addingItemToList(Item itemToBeAdded)
+    {
+        items.add(itemToBeAdded);
+        receipt.addItemToList(itemToBeAdded);
+        if(usingThisToAddTheFirstItemInTheList == 0)
+            usingThisToAddTheFirstItemInTheList++;
+    }
+
+    private void increaseQuantityOfItem(Item itemToBeAdded)
+    {
+        for (Item item : items) {
+            if(itemsEqualToEachOther(item, itemToBeAdded))
+            {
+                item.updateQuantity();
+                receipt.increaseQuantityOfItem(itemToBeAdded);
+            }                        
+        }
+    }
+
     /**
      * Ends the current sale and prints the total price and all of the items that are bought
      */
-    public void endingSale()
+    public SaleDTO endingSale()
     {
-        System.out.println("Sale closed");
-        for (Item item : items) {
-            System.out.println(item);
-        }
-        System.out.println("Total price = " + receipt.getTotalPrice() + " kr.");
+        return new SaleDTO(receipt, items);
     }
 
     /**
@@ -117,7 +114,6 @@ public class Sale {
         float change = amountPaid - receipt.getTotalPrice();
         if(change < 0)
         {
-            System.out.println("Not enough paid, there is still " + Math.abs(amountPaid - receipt.getTotalPrice()) + " kr left to pay, enter again:");
             return false;
         }
         receipt.setAmountPaid(amountPaid);
