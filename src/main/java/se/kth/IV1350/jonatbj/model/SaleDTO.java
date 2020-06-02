@@ -22,4 +22,9 @@ public class SaleDTO {
     {
         return items;
     }
+
+    public float getTotalPrice()
+    {
+        return receipt.getTotalPrice();
+    }
 }

@@ -1,55 +1,45 @@
 package se.kth.IV1350.jonatbj.model;
 
 public class ItemDTO {
-    private int itemID;
-    private String name;
-    private float price;
-    private String itemDiscription;
-    private float vatRate;
-    private int quantity;
+    private Item item;
 
-    public ItemDTO(int _itemID, String _name, float _price, String _itemDiscription, float _VATrate, int _quantity)
+    public ItemDTO(Item _item)
     {
-        itemID = _itemID;
-        name = _name;
-        price = _price;
-        itemDiscription = _itemDiscription;
-        vatRate = _VATrate;
-        quantity = _quantity;
+        item = _item;
     }
 
     public int getItemID()
     {
-        return itemID;
+        return item.getItemID();
     }
 
     public String getName()
     {
-        return name;
+        return item.getName();
     }
 
     public float getPrice()
     {
-        return price;
+        return item.getPrice();
     }
 
     public String getItemDiscription()
     {
-        return itemDiscription;
+        return item.getItemDiscription();
     }
 
     public float getVATrate()
     {
-        return vatRate;
+        return item.getVATrate();
     }
 
     public int getQuantity()
     {
-        return quantity;
+        return item.getQuantity();
     }
 
     public String toString()
     {
-        return "Name: " + name + " Price : " + price + " Quantity: " + quantity;
+        return "Name: " + item.getName() + " Price : " + item.getPrice() + " Quantity: " + item.getQuantity();
     }
 }
