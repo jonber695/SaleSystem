@@ -56,12 +56,12 @@ public class View
                 catch(InventoryNotRespondingException e)
                 {
                     System.out.println("To user: The inventory is not responding, please try again");
-                    System.out.println("To developer: " + e.getLocalizedMessage());
+                    System.out.println("To developer: " + e.getStackTrace());
                 }
                 catch(ItemNotInInventoryException e)
                 {
                     System.out.println("To user: You have entered an invalid item ID, please try again");
-                    System.out.println("To developer: " + e.getLocalizedMessage());
+                    System.out.println("To developer: " + e.getStackTrace());
                 }
                 if(item != null)
                 {
