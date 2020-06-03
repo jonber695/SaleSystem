@@ -49,6 +49,7 @@ public class Controller {
      * Scans one item by calling the method registerItem in sale
      * 
      * @param itemID used to identify which item is suppose to be added
+     * @return forwards the ItemDTO from the method in Sale
      */
     public ItemDTO scanItems(int itemID)
     {
@@ -57,6 +58,7 @@ public class Controller {
 
     /**
      * Ends sale by calling the endingSale method in sale
+     * @return forwards the SaleDTO from the metthod in Sale
      */
     public SaleDTO endSale()
     {

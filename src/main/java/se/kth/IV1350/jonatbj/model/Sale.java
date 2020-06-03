@@ -35,6 +35,7 @@ public class Sale {
      * 
      * @param itemID This is the ID of an item, used to fetch the information from the external system
      * @param externalInventorySystem Uses the ID to fetch information from its inventory system
+     * @return returns an itemDTO so that the view can print out the item discription.
      */
     public ItemDTO registerItem(int itemID, ExternalInventorySystem externalInventorySystem)
     {
@@ -91,6 +92,7 @@ public class Sale {
 
     /**
      * Ends the current sale and prints the total price and all of the items that are bought
+     * @return returns a SaleDTO so that the view can print out the total price
      */
     public SaleDTO endingSale()
     {
