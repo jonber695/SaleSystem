@@ -38,6 +38,38 @@ public class View
         contr.startSale();
         System.out.println("Sale started");
         System.out.println("Enter itemID for scanning:");
+        itemID = enterNumber();
+        float totalPrice = 0;
+        while(itemID != 0)
+        {
+            ItemDTO item = contr.scanItems(itemID);
+            totalPrice += item.getPrice();
+            System.out.println("Item disctiption: " + item.toString() + "\n" + "And the running total is: " + totalPrice);
+            System.out.println("Enter next itemID:");
+            System.out.println("If there are no more items enter the number zero");
+            itemID = enterNumber();
+        }
+        System.out.println("Sale ended");
+        SaleDTO sale = contr.endSale();
+        System.out.println("Total price: " + sale.getTotalPrice());
+        contr.updateingSaleLog();
+        System.out.println("Enter paid amount:");
+        int amountPaid = enterNumber();
+        while(contr.payment(amountPaid) == false)
+        {
+            System.out.println("Not enough paid, there is still " + Math.abs(amountPaid-sale.getTotalPrice()) + " kr left to pay, enter again:");
+            amountPaid += enterNumber();
+        }
+            
+        contr.printReceipt();
+        System.out.println("--------Start of receipt-------");
+        System.out.println(sale.getReceipt());
+        System.out.println("--------End of receipt----------");
+    }
+
+    private int enterNumber()
+    {
+        int itemID = 0;
         boolean loopToCheckThatItemIdIsANumber = true;
         do
         {
@@ -51,31 +83,6 @@ public class View
                 System.out.println("You did not enter a number, please try again");
             }
         }while(loopToCheckThatItemIdIsANumber);
-        float totalPrice = 0;
-        while(itemID != 0)
-        {
-            ItemDTO item = contr.scanItems(itemID);
-            totalPrice += item.getPrice();
-            System.out.println("Item disctiption: " + item.toString() + "\n" + "And the running total is: " + totalPrice);
-            System.out.println("Enter next itemID:");
-            System.out.println("If there are no more items enter the number zero");
-            itemID = scanner.nextInt();
-        }
-        System.out.println("Sale ended");
-        SaleDTO sale = contr.endSale();
-        System.out.println("Total price: " + sale.getTotalPrice());
-        contr.updateingSaleLog();
-        System.out.println("Enter paid amount:");
-        int amountPaid = scanner.nextInt();
-        while(contr.payment(amountPaid) == false)
-        {
-            System.out.println("Not enough paid, there is still " + Math.abs(amountPaid-sale.getTotalPrice()) + " kr left to pay, enter again:");
-            amountPaid += scanner.nextInt();
-        }
-            
-        contr.printReceipt();
-        System.out.println("--------Start of receipt-------");
-        System.out.println(sale.getReceipt());
-        System.out.println("--------End of receipt----------");
+        return itemID;
     }
 }
