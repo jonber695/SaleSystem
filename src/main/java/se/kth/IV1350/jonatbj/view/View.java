@@ -45,7 +45,7 @@ public class View
             contr.startSale();
             System.out.println("Sale started");
             System.out.println("Enter itemID for scanning:");
-            int itemID = enterItemID();
+            int itemID = enterNumber();
             
             while(itemID != 0)
             {
@@ -70,7 +70,7 @@ public class View
                 }    
                 System.out.println("Enter next itemID:");
                 System.out.println("If there are no more items enter zero");
-                itemID = enterItemID();
+                itemID = enterNumber();
                 item = null;
             }
             System.out.println("Sale closed");
@@ -78,11 +78,11 @@ public class View
             System.out.println("Total price: " + sale.getTotalPrice());
             contr.updateingSaleLog();
             System.out.println("Enter paid amount:");
-            int amountPaid = scanner.nextInt();
+            int amountPaid = enterNumber();
             while(contr.payment(amountPaid) == false)
             {
                 System.out.println("Not enough paid, there is still " + Math.abs(amountPaid - sale.getTotalPrice()) + " kr left to pay, enter again:");
-                amountPaid += scanner.nextInt();
+                amountPaid += enterNumber();
             }
             contr.increaseAmountInRegister(amountPaid);
             contr.updateAccountingSystem();
@@ -94,7 +94,7 @@ public class View
         } 
     }
 
-    private int enterItemID()
+    private int enterNumber()
     {
         boolean loopToCheckThatItemIdIsANumber = true;
         int itemID = 0;
@@ -107,7 +107,7 @@ public class View
             }
             catch (Exception e)
             {
-                System.out.println("You did not enter a number, please try again");
+                System.out.println("You did not enter a number, please try again:");
             }
         }while(loopToCheckThatItemIdIsANumber);
         return itemID;
