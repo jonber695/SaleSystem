@@ -39,6 +39,9 @@ public class Sale {
      * @param externalInventorySystem Uses the ID to fetch information from its
      *                                inventory system
      * @throws InvetoryNotRespondingException Throws an exception when the inventory is not reachable
+     * @throws ItemNotInInventoryException throws this exception when the cashier has entered a invalid item ID
+     * 
+     * @return returns an ItemDTO so that the view can display the item discription
      */
     public ItemDTO registerItem(int itemID, ExternalInventorySystem externalInventorySystem) throws InventoryNotRespondingException, ItemNotInInventoryException
     {
@@ -97,6 +100,7 @@ public class Sale {
 
     /**
      * Ends the current sale and prints the total price and all of the items that are bought
+     * @return returns a DTO of Sale so that the view can display the total price
      */
     public SaleDTO endingSale()
     {
@@ -129,6 +133,10 @@ public class Sale {
         }
     }
 
+    /**
+     * adds an observer to the list of observers
+     * @param reObs the observer to be added
+     */
     public void addObserver(RevenueObserver reObs)
     {
         revenueObservers.add(reObs);

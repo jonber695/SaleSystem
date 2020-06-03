@@ -50,6 +50,10 @@ public class Controller {
         revenueObservers = new ArrayList<>();
     }
 
+    /**
+     * Adds an ovserver to the list of observers
+     * @param reObs
+     */
     public void addObserver(RevenueObserver reObs) {
         revenueObservers.add(reObs);
     }
@@ -66,8 +70,10 @@ public class Controller {
      * Scans one item by calling the method registerItem in sale
      * 
      * @param itemID used to identify which item is suppose to be added
-     * @throws ItemNotInInventoryException
-     * @throws InventoryNotRespondingException
+     * @throws ItemNotInInventoryException throws an exception up to the view if the cashier has entered an invalid ID
+     * @throws InventoryNotRespondingException throws an exception up to the view if the inventory is not responding
+     * 
+     * @return Forwards the ItemDTO from the method in Sale
      */
     public ItemDTO scanItems(int itemID) throws ItemNotInInventoryException, InventoryNotRespondingException
     {
@@ -76,6 +82,7 @@ public class Controller {
 
     /**
      * Ends sale by calling the endingSale method in sale
+     * @return Forwards the SaleDTO from the method in Sale
      */
     public SaleDTO endSale()
     {
